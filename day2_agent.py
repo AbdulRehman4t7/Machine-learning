@@ -16,6 +16,7 @@ def calculator(a, b, operation):
             return "Cannot divide by zero."
 
         return a / b
+
     return "Unknown operation"
 
 
