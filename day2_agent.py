@@ -1,3 +1,4 @@
+import re
 import json
 
 
@@ -21,21 +22,49 @@ def calculator(a, b, operation):
 
 
 def agent(request):
-    print("User Request:", request)
 
-    # Agent's decision
+    print("\nUser Request:", request)
+
+    request_lower = request.lower()
+
+    # Find numbers
+    numbers = re.findall(r"\d+(?:\.\d+)?", request_lower)
+
+    if len(numbers) < 2:
+        return "Please provide two numbers."
+
+    a = float(numbers[0])
+    b = float(numbers[1])
+
+    # Decide operation
+    if "add" in request_lower:
+        operation = "add"
+
+    elif "subtract" in request_lower:
+        operation = "subtract"
+
+    elif "multiply" in request_lower:
+        operation = "multiply"
+
+    elif "divide" in request_lower:
+        operation = "divide"
+
+    else:
+        return "I don't know which operation to use."
+
+    # Create structured decision
     tool_request = {
         "tool": "calculator",
-        "operation": "add",
-        "a": 20,
-        "b": 30
+        "operation": operation,
+        "a": a,
+        "b": b
     }
 
     print("\nAgent Decision:")
 
     print(json.dumps(tool_request, indent=4))
 
-    # Execute selected tool
+    # Execute tool
     result = calculator(
         tool_request["a"],
         tool_request["b"],
@@ -45,6 +74,14 @@ def agent(request):
     return result
 
 
-answer = agent("Please add 20 and 30")
+while True:
 
-print("\nFinal Answer:", answer)
+    user_input = input("\nYou: ")
+
+    if user_input.lower() == "exit":
+        print("Agent: Goodbye!")
+        break
+
+    answer = agent(user_input)
+
+    print("\nAgent:", answer)
