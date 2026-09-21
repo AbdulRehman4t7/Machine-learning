@@ -23,4 +23,3 @@ print("Price:", price)
 print("Quantity:", quantity)
 print("Total:", total)
 
-print(10%3)
