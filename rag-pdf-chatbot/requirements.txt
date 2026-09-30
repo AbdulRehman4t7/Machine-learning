@@ -1,0 +1,6 @@
+pymupdf
+huggingface_hub
+qdrant-client
+python-dotenv
+numpy
+gradio
